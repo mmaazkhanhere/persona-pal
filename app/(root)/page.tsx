@@ -8,8 +8,7 @@ type Props = {}
 const Home = () => {
     return (
         <div>
-            <Navbar />
-            <Sidebar />
+            Homepage
         </div>
     )
 }

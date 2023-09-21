@@ -21,19 +21,19 @@ import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
     name: z.string().min(2, {
-        message: "Pal name must be at least 2 characters"
+        message: "Pal name must be at least 2 characters" //error message displayed for name of Pal
     }),
     description: z.string().min(1, {
-        message: 'Description for Pal is required'
+        message: 'Description for Pal is required' //error message displayed for pal description
     }),
     instructions: z.string().min(200, {
-        message: 'Instructions requires at least 200 characters'
+        message: 'Instructions requires at least 200 characters' //error message for instruction
     }),
     seed: z.string().min(200, {
-        message: "Example conversation requires more than 200 characters"
+        message: "Example conversation requires more than 200 characters" //error message for seed
     }),
     src: z.string().min(1, {
-        message: "Image is required"
+        message: "Image is required" //error message for image 
     })
 })
 

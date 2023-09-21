@@ -16,10 +16,10 @@ model Pal {
   description  String //description for the pal 
   instructions String   @db.Text //instruction on how to behave
   seed         String   @db.Text //example conversation
+  src          String
   userName     String //name of user who created it
   userId       String //id of that user
   createdAt    DateTime @default(now()) //when the pal was created
-  updatedAt    DateTime //when the pal was last updated
 
   @@index([name]) //create index for the field name improving search queries
 }

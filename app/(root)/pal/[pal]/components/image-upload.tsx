@@ -22,7 +22,7 @@ const ImageUpload = ({ url, onChange, disabled }: ImageUploadProps) => {
                 uploadPreset='h6oqaxku'
             >
                 <div className='border-2 border-dashed border-muted-foreground p-4 
-                rounded-lg opacity-50 hover:opacity-70 transition flex items-center justify-center'>
+                rounded-lg opacity-100 hover:opacity-70 transition flex items-center justify-center'>
 
                     <div className='relative w-40 h-40'>
                         <Image

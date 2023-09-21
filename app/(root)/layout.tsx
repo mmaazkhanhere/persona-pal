@@ -8,7 +8,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <Navbar />
             <div className="flex w-full items-start">
                 <Sidebar />
-                <main className="pl-10">
+                <main className="pl-10 w-full">
                     {children}
                 </main>
             </div>

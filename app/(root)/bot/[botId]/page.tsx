@@ -1,18 +1,23 @@
 "use client"
 
-import { useToast } from '@/components/ui/use-toast'
+
 import React from 'react'
+import ImageUpload from './components/image-upload'
 import { useForm } from 'react-hook-form'
+import axios from "axios"
+
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator'
-import ImageUpload from './components/image-upload'
-import { Label } from '@/components/ui/label'
+import { useToast } from '@/components/ui/use-toast'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+
 import { BotIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+
 
 const formSchema = z.object({
     name: z.string().min(2, {
@@ -35,6 +40,7 @@ const formSchema = z.object({
 const Bot = () => {
 
     const { toast } = useToast();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema), defaultValues: {
@@ -46,13 +52,33 @@ const Bot = () => {
         },
     });
 
-    const isLoading = form.formState.isSubmitting;
+    const isLoading = form.formState.isSubmitting; //loading state for the form
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        //code runs when the user clicks on Create Pal button
+        try {
+            await axios.post(`/api/pal`, values); //post the details to the api
+            toast({
+                variant: 'success',
+                description: 'Pal Created' //toast message for successful creation
+            });
+            router.refresh();
+            router.push('/');//to navigate back to the homepage
+        } catch (error) {
+            console.log("Error while creating Pal", error);
+            toast({
+                variant: "destructive",
+                description: "Oops! Something went wrong"
+            });
+        }
+    }
 
     return (
         <div className='h-full max-w-3xl mx-auto p-4'>
             <Form {...form}>
                 <form
                     className='space-y-6 pb-10'
+                    onSubmit={form.handleSubmit(onSubmit)}
                 >
                     <div className='space-y-2 w-full'>
                         <h3 className='text-xl font-medium'>
@@ -74,6 +100,7 @@ const Bot = () => {
                                         onChange={field.onChange}
                                     />
                                 </FormControl>
+                                <FormMessage className='text-sm' />
                             </FormItem>
                         )}
                     />
@@ -82,7 +109,7 @@ const Bot = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Pal Name</FormLabel>
+                                    <FormLabel className='font-medium'>Pal Name</FormLabel>
                                     <FormControl>
                                         <Input
                                             disabled={isLoading}
@@ -90,6 +117,7 @@ const Bot = () => {
                                             {...field}
                                         />
                                     </FormControl>
+                                    <FormMessage className='text-sm' />
                                     <FormDescription className='text-xs text-primary/60'>
                                         What your Pal will be called
                                     </FormDescription>
@@ -108,6 +136,7 @@ const Bot = () => {
                                             {...field}
                                         />
                                     </FormControl>
+                                    <FormMessage className='text-sm' />
                                     <FormDescription className='text-xs text-primary/60'>
                                         How you describe your Pal?
                                     </FormDescription>
@@ -129,6 +158,7 @@ const Bot = () => {
                                             {...field}
                                         />
                                     </FormControl>
+                                    <FormMessage className='text-sm' />
                                     <FormDescription className='text-xs text-primary/60'>
                                         Describe in detail about your Pal. The more detailed your description, the better Pal response will be.
                                     </FormDescription>
@@ -141,7 +171,7 @@ const Bot = () => {
                             name="seed"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel></FormLabel>
+                                    <FormLabel>Conversation Example</FormLabel>
                                     <FormControl>
                                         <Textarea
                                             disabled={isLoading}
@@ -150,6 +180,7 @@ const Bot = () => {
                                             {...field}
                                         />
                                     </FormControl>
+                                    <FormMessage className='text-sm' />
                                     <FormDescription className='text-xs text-primary/60'>
                                         Write an example conversation for your Pal showing how it should response. More conversation, better will
                                         be the Pal response

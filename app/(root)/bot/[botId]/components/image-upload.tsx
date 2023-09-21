@@ -19,7 +19,7 @@ const ImageUpload = ({ url, onChange, disabled }: ImageUploadProps) => {
                 options={{
                     maxFiles: 1
                 }}
-                uploadPreset='rpzilvh6'
+                uploadPreset='h6oqaxku'
             >
                 <div className='border-2 border-dashed border-muted-foreground p-4 
                 rounded-lg opacity-50 hover:opacity-70 transition flex items-center justify-center'>

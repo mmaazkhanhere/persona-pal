@@ -22,9 +22,19 @@ const Home = async () => {
         orderBy: {
             createdAt: 'desc'
         }
+        ,
+        include: {
+            _count: {
+                select: {
+                    messages: true
+                }
+            }
+        }
     });
 
-    console.log(data);
+
+
+    console.log(data[0]._count.messages);
 
     if (data.length == 0) {
         return (
@@ -65,7 +75,7 @@ const Home = async () => {
                                     <p className='text-muted-foreground'>@{pal.userName}</p>
                                     <div className='flex items-center justify-center gap-1 text-muted-foreground text-xs'>
                                         <MessageSquareIcon size={20} />
-                                        {5}
+                                        {pal._count.messages}
                                     </div>
                                 </CardFooter>
                             </Link>

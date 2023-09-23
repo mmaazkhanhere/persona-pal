@@ -11,15 +11,33 @@ datasource db {
 }
 
 model Pal {
-  id           String   @id @default(uuid()) //id of the pal
+  id           String    @id @default(uuid()) //id of the pal
   name         String //name of the pal
   description  String //description for the pal 
-  instructions String   @db.Text //instruction on how to behave
-  seed         String   @db.Text //example conversation
+  instructions String    @db.Text //instruction on how to behave
+  seed         String    @db.Text //example conversation
   src          String
   userName     String //name of user who created it
   userId       String //id of that user
-  createdAt    DateTime @default(now()) //when the pal was created
+  createdAt    DateTime  @default(now()) //when the pal was created
+  messages     Message[]
 
   @@index([name]) //create index for the field name improving search queries
+}
+
+enum Role {
+  user
+  pal
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  userId    String
+  palId     String
+  pal       Pal      @relation(fields: [palId], references: [id], onDelete: Cascade)
+  role      Role
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([palId])
 }

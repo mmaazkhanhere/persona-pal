@@ -7,7 +7,7 @@ type Props = {
 
 const BotAvatar = (props: Props) => {
     return (
-        <Avatar className='w-16 h-16'>
+        <Avatar className='w-14 h-14'>
             <AvatarImage src={props.src} />
         </Avatar>
     )

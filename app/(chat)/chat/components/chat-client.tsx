@@ -7,6 +7,7 @@ import ChatForm from './chat-form';
 import { useCompletion } from "ai/react"
 import { PalMessageProps } from './pal-message';
 import { useRouter } from 'next/navigation';
+import PalConversation from './pal-conversation';
 
 type Props = {
     pal: Pal & {
@@ -44,14 +45,22 @@ const ChatClient = ({ pal }: Props) => {
     }
 
     return (
-        <div className='flex flex-col h-full p-4'>
+        <div className='flex flex-col h-screen p-4'>
             <ChatHeader pal={pal} />
-            <ChatForm
+            <PalConversation
+                pal={pal}
                 isLoading={isLoading}
-                input={input}
-                handleInputChange={handleInputChange}
-                onSubmit={onSubmit}
+                message={messages}
             />
+            <div className='items-end'>
+                <ChatForm
+                    isLoading={isLoading}
+                    input={input}
+                    handleInputChange={handleInputChange}
+                    onSubmit={onSubmit}
+                />
+            </div>
+
         </div>
     )
 }

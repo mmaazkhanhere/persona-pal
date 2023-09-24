@@ -18,7 +18,7 @@ const PalMessage = (props: PalMessageProps) => {
     const { theme } = useTheme();
 
     return (
-        <div className={cn(`group flex items-start w-full`, props.role === "user" && "justify-end")}>
+        <div className={cn(`group flex items-center w-full gap-x-3 py-4 px-2`, props.role === "user" && "justify-end")}>
             {/*Displaying content for pal */}
             {
                 props.role === "pal" && props.src && <BotAvatar src={props.src} /> /*If the message is from pal and the pal have
@@ -26,7 +26,7 @@ const PalMessage = (props: PalMessageProps) => {
             }
             <div className='rounded-md p-2 bg-primary/10 text-sm max-w-sm'>
                 {
-                    props.isLoading ? <PulseLoader color={theme === 'light' ? "black" : "white"} /> : props.content
+                    props.isLoading ? <PulseLoader size={5} color={theme === 'light' ? "black" : "white"} /> : props.content
                     /*If pal is thinking, display a pulse loader else display the message content */
                 }
             </div>

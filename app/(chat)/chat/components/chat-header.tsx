@@ -1,9 +1,8 @@
-import { ChevronLeft, MessageSquare } from 'lucide-react'
+import { ChevronLeft, MessageSquare, MoreVertical, Trash } from 'lucide-react'
 import React from 'react'
 import BotAvatar from './bot-avatar'
-import prismadb from '@/lib/prismadb'
-import { auth } from '@clerk/nextjs'
 import { Message, Pal } from '@prisma/client'
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 type ChatHeaderProps = {
     pal: Pal & {
@@ -14,7 +13,7 @@ type ChatHeaderProps = {
     }
 }
 
-const ChatHeader = async ({ pal }: ChatHeaderProps) => {
+const ChatHeader = ({ pal }: ChatHeaderProps) => {
 
     return (
         <header className='flex items-center justify-between'>
@@ -31,6 +30,18 @@ const ChatHeader = async ({ pal }: ChatHeaderProps) => {
                         </div>
                     </div>
                 </div>
+            </nav>
+            <nav>
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <MoreVertical />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem className='flex items-center justify-center gap-2'>
+                            Delete <Trash size={18} />
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </nav>
         </header>
     )

@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { usePathname, useRouter } from "next/navigation"
 
 import { Button } from '@/components/ui/button'
@@ -9,9 +9,12 @@ import { UserButton, useUser } from '@clerk/nextjs'
 
 import { Plus, Settings, Zap } from 'lucide-react'
 import { ModeToggle } from './mode-toggle'
+import axios from 'axios'
 
 
 const Sidebar = () => {
+
+    const [loading, setLoading] = useState(false);
 
     const routes = [
         {
@@ -34,6 +37,16 @@ const Sidebar = () => {
 
     const onClick = (href: string) => {
         router.push(href);
+    }
+
+    const handleSubscribe = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get("/api/stripe");
+            window.location.href = response.data.url;
+        } catch (error) {
+            console.log("[SUBSCRIBE_BUTTON_ERROR]", error);
+        }
     }
 
     return (
@@ -65,7 +78,9 @@ const Sidebar = () => {
                 <UserButton />
                 {user?.firstName}
             </div>
-            <Button variant="pro" className='flex items-center justify-between gap-x-2'>
+            <Button variant="pro" className='flex items-center justify-between gap-x-2'
+                onClick={handleSubscribe}
+            >
                 Pro
                 <Zap fill='text-gray-600 hover:text-gray-800' size={14} />
             </Button>

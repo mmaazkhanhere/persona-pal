@@ -3,6 +3,7 @@ import React from 'react'
 import BotAvatar from './bot-avatar'
 import { Message, Pal } from '@prisma/client'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import Link from 'next/link'
 
 type ChatHeaderProps = {
     pal: Pal & {
@@ -17,9 +18,11 @@ const ChatHeader = ({ pal }: ChatHeaderProps) => {
 
     return (
         <header className='flex items-center justify-between'>
-            <nav className='flex items-center justify-start'>
-                <ChevronLeft />
-                <div className='flex items-center justify-center gap-2'>
+            <nav className='flex items-center justify-start '>
+                <Link href="/">
+                    <ChevronLeft />
+                </Link>
+                <div className='flex items-center justify-center gap-2 ml-4'>
                     <BotAvatar src={pal.src} />
                     <div className='flex flex-col items-start justify-center gap-[2px]'>
                         <p className='font-semibold'>{pal.name}</p>

@@ -15,7 +15,7 @@ import {
 import { MoonStar, Sun } from "lucide-react"
 
 export function ModeToggle() {
-    const { setTheme } = useTheme()
+    const { setTheme } = useTheme();
 
     return (
         <DropdownMenu>

@@ -15,7 +15,10 @@ type Props = {
 
 const ChatForm = ({ input, handleInputChange, onSubmit, isLoading }: Props) => {
     return (
-        <form className='flex items-center border-t border-primary/10 py-4 gap-x-2'>
+        <form
+            className='flex items-center border-t border-primary/10 py-4 gap-x-2'
+            onSubmit={onSubmit}
+        >
             <Input
                 disabled={isLoading}
                 value={input}

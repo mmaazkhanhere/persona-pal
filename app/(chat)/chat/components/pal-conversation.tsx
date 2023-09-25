@@ -48,7 +48,7 @@ const PalConversation = ({ message = [], isLoading, pal }: Props) => {
                         key={message.role}
                         role={message.role}//role associated with the message
                         content={message.content} //content of the message
-                        src={message.src}
+                        src={pal.src}
                     />
                 ))
             }

@@ -22,7 +22,7 @@ type ChatHeaderProps = {
 
 const ChatHeader = ({ pal }: ChatHeaderProps) => {
 
-    const [sub, setSub] = useState(false);
+    const [sub, setSub] = useState(true);
     const router = useRouter();
     const { toast } = useToast();
 
@@ -40,16 +40,21 @@ const ChatHeader = ({ pal }: ChatHeaderProps) => {
     }, []);
 
     const handleDelete = async () => {
+        //function that runs when clicked on delete icon
         try {
+            //sends a DELETE http request at the end point
             await axios.delete(`/api/pal/${pal.id}`);
             toast({
-                variant: 'success',
-                description: "Pal Deleted"
+                description: 'Success'
             });
             router.refresh();
             router.push("/");
         } catch (error) {
-            console.error("[CHAT_HEADER_DELETE_ERROR]", error);
+            //toast runs when error
+            toast({
+                description: "Something went wrong. Make sure you are a subscriber",
+                variant: "destructive"
+            })
         }
     }
 

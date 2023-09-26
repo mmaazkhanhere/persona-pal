@@ -79,7 +79,7 @@ const Bot = () => {
             console.log("Error while creating Pal", error);
             toast({
                 variant: "destructive",
-                description: "Oops! Something went wrong"
+                description: "Oops! Something went wrong. "
             });
         }
     }

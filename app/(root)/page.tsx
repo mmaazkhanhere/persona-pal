@@ -1,4 +1,4 @@
-import { UserButton, auth } from '@clerk/nextjs'
+import { auth, currentUser } from "@clerk/nextjs";
 import React from 'react'
 import prismadb from '@/lib/prismadb'
 import Image from 'next/image'
@@ -6,20 +6,17 @@ import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { MessageSquareIcon } from 'lucide-react'
 import Link from 'next/link'
 
-type Props = {}
-
 const Home = async () => {
 
-    const { user } = auth();
+    const { userId } = auth();
 
     const data = await prismadb.pal.findMany({
         where: {
-            userId: user?.id
+            userId: userId as string
         },
         orderBy: {
             createdAt: 'desc'
-        }
-        ,
+        },
         include: {
             _count: {
                 select: {

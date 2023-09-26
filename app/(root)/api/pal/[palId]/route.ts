@@ -1,31 +1,30 @@
 import prismadb from "@/lib/prismadb";
 import { checkSubscription } from "@/lib/subscription";
-import { currentUser } from "@clerk/nextjs";
-import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs";
+import { NextResponse } from "next/server";
 
-export const DELETE = async (request: NextRequest, { params }: { params: { palId: string } }) => {
+export async function DELETE(request: Request, { params }: { params: { palId: string } }) {
     try {
-        const body = await request.json();
-        const user = await currentUser();
+        const { userId } = auth();//gets user info
+        console.log(userId)
         const subscription = await checkSubscription();
+        console.log(subscription)
 
-        if (!params.palId) {
-            return new NextResponse("Missing details", { status: 400 });
-        }
-
-        if (!user || !subscription) {
+        if (!userId || !subscription) {
+            //if no authenticated user present, then 401 error
             return new NextResponse("Unauthorised", { status: 401 });
         }
-        else {
-            const pal = await prismadb.pal.delete({
-                where: {
-                    userId: user.id,
-                    id: params.palId
-                }
-            });
 
-            return NextResponse.json(pal);
-        }
+        //delete a companion object in the database based on the "userId" and companionId from the route parameters
+        const companion = await prismadb.pal.delete({
+            where: {
+                userId,
+                id: params.palId,
+            }
+        });
+        console.log(companion)
+
+        return NextResponse.json(companion);//retunrs a JSON response with the deleted companion object
 
     } catch (error) {
         console.log("[COMPANION_DELETE]", error);

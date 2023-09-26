@@ -16,41 +16,46 @@ export const GET = async () => {
         }
 
         const userSubscription = await prismadb.userSubscription.findUnique({
+            //find users who have active subscription
             where: {
                 userId
             }
         });
 
         if (userSubscription && userSubscription.stripeCustomerId) {
+            //if user is subscribed, they will be redirected towards billing portal of stripe
             const stripeSession = await stripe.billingPortal.sessions.create({
+                //stripe session for billing portal
                 customer: userSubscription.stripeCustomerId,
                 return_url: settingsUrl
             });
 
+            //returning stripe session url
             return new NextResponse(JSON.stringify({ url: stripeSession.url }));
         }
 
         const stripeSession = await stripe.checkout.sessions.create({
-            success_url: settingsUrl,
-            cancel_url: settingsUrl,
-            payment_method_types: ["card"],
-            mode: "subscription",
-            billing_address_collection: "auto",
+            success_url: settingsUrl,//where the user will be redirected when checkout is completed
+            cancel_url: settingsUrl, //where the user will be redirected when checkout fails
+            payment_method_types: ["card", "paypal"], //methods for payment
+            mode: "subscription", //what type of checkout it is
+            billing_address_collection: "auto", //customer billing address is automatically collected
             customer_email: user?.emailAddresses[0].emailAddress,
             line_items: [
+                //cart items 
                 {
                     price_data: {
-                        currency: "USD",
-                        product_data: {
+                        currency: "USD", //curreny to use
+                        product_data: { //company name and its description
                             name: "PersonaPal",
                             description: "Create Your Own Pals"
                         },
-                        unit_amount: 999,
+                        unit_amount: 999, //currency
                         recurring: {
-                            interval: "month"
+                            interval: "month" //monthly subscription
                         }
                     },
-                    quantity: 1,
+                    quantity: 1, //quantity of item 
                 }
             ],
             metadata: {
@@ -58,7 +63,7 @@ export const GET = async () => {
             }
         })
 
-        return new NextResponse(JSON.stringify({ url: stripeSession.url }));
+        return new NextResponse(JSON.stringify({ url: stripeSession.url })); //stripe session url returned
 
     } catch (error) {
         console.log("[STRIPE]", error);

@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import { useProModal } from '@/lib/use-pro-modal'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = {}
 
@@ -14,6 +14,15 @@ const ProModal = (props: Props) => {
     const proModal = useProModal();
 
     const [loading, setLoading] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, [])
+
+    if (!isMounted) {
+        return null;
+    }
 
     const onSubscribe = async () => {
         try {

@@ -39,16 +39,6 @@ const Sidebar = () => {
         router.push(href);
     }
 
-    const handleSubscribe = async () => {
-        try {
-            setLoading(true);
-            const response = await axios.get("/api/stripe");
-            window.location.href = response.data.url;
-        } catch (error) {
-            console.log("[SUBSCRIBE_BUTTON_ERROR]", error);
-        }
-    }
-
     return (
         <div className='flex flex-col items-center justify-center h-full w-20 gap-y-3 text-sm'>
             {
@@ -75,15 +65,9 @@ const Sidebar = () => {
             <div className='p-2 w-full cursor-pointer rounded-lg hover:bg-primary/60
             text-primary/80 hover:text-primary transition flex flex-col items-center 
             justify-center gap-y-2'>
-                <UserButton />
+                <UserButton afterSignOutUrl='/sign-in' />
                 {user?.firstName}
             </div>
-            <Button variant="pro" className='flex items-center justify-between gap-x-2'
-                onClick={handleSubscribe}
-            >
-                Pro
-                <Zap fill='text-gray-600 hover:text-gray-800' size={14} />
-            </Button>
         </div>
     )
 }

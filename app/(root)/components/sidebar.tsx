@@ -7,14 +7,11 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { UserButton, useUser } from '@clerk/nextjs'
 
-import { Plus, Settings, Zap } from 'lucide-react'
+import { Plus, Settings } from 'lucide-react'
 import { ModeToggle } from './mode-toggle'
-import axios from 'axios'
 
 
 const Sidebar = () => {
-
-    const [loading, setLoading] = useState(false);
 
     const routes = [
         {
